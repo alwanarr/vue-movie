@@ -3,9 +3,7 @@ import Vuex from "vuex";
 import axios from "axios";
 Vue.use(Vuex);
 import { getField, updateField } from "vuex-map-fields";
-// CONFIG     // "eslint": "^6.7.2",
-// "@vue/cli-plugin-eslint": "~4.4.0",
-// "eslint-plugin-vue": "^6.2.2",
+
 const API_KEY = "04ff38168fe3dfe8fdf6585c81f5c4a9";
 const BASE_URL = "https://api.themoviedb.org/3/";
 export default new Vuex.Store({

@@ -8,6 +8,5 @@ import "vue-loading-overlay/dist/vue-loading.css";
 Vue.component("Loading", Loading);
 new Vue({
   store,
-
   render: (h) => h(App),
 }).$mount("#app");
