@@ -1,138 +1,137 @@
 <template>
- <transition name="modal-fade">
-  <div class="modal-backdrop">
-    <div class="modal">
-      <header class="modal-header">
-        <slot name="header">
-          
-          <button
-            type="button"
-            class="btn-close"
-            @click="close"
-          >
-            x
-          </button>
-        </slot>
-      </header>
-      <section class="modal-body">
-        <slot name="body">
-         
-        </slot>
-       </section>
-       <footer class="modal-footer">
-          <slot name="footer">
-            
-
+  <transition name="modal">
+    <div class="modal-mask" @click="$emit('close')">
+      <div class="modal-wrapper">
+        <div
+          class="modal-container"
+          :style="{ width: width + widthUnit }"
+          @click.stop
+        >
+          <div class="modal-close-container">
             <button
+              @click="$emit('close')"
+              v-if="showCloseButton"
+              style="margin: 5px"
               type="button"
-              class=" btn"
-              @click="close"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
             >
-              Close
-          </button>
-        </slot>
-      </footer>
+              <span class="fa fa-close">x </span>
+            </button>
+          </div>
+          <div class="modal-scrollable">
+            <div class="modal-header">
+              <slot name="header">default header </slot>
+            </div>
+            <div class="modal-body">
+              <slot name="body">default body</slot>
+            </div>
+            <div class="modal-footer">
+              <slot name="footer"></slot>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
   </transition>
 </template>
 
 <script>
-  export default {
-    methods: {
-      close() {
-        this.$emit('close');
-      },
+export default {
+  name: "modal",
+  props: {
+    width: {
+      type: Number,
+      default: 50,
     },
-  };
+    widthUnit: {
+      type: String,
+      default: "%",
+    },
+    showCloseButton: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
 </script>
 
 <style scoped>
-  .modal-backdrop {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.modal-mask {
+  position: fixed;
+  z-index: 900;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
 
-  .modal {
-    background: #FFFFFF;
-    box-shadow: 2px 2px 20px 1px;
-    overflow-x: auto;
-    display: flex;
-    max-width: 50%;
-    max-height: 100%;
-    flex-direction: column;
-  }
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
 
-  .modal-header,
-  .modal-footer {
-    padding: 15px;
-    display: flex;
-  }
+.modal-container {
+  width: 600px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+  cursor: default;
+}
 
-  .modal-header {
-    border-bottom: 1px solid #eeeeee;
-    color: #4AAE9B;
-    justify-content: flex-end;
-  }
+.modal-close-container {
+  position: relative;
+  text-align: right;
+  height: 35px;
+}
 
-  .modal-footer {
-    border-top: 1px solid #eeeeee;
-    justify-content: flex-end;
-  }
+.modal-scrollable {
+  max-height: calc(90vh - 35px);
+  overflow-y: auto;
+}
 
-  .modal-body {
-    position: relative;
-    padding: 20px 10px;
-  }
+.modal-header h3 {
+  margin-top: 0;
+  overflow-y: hidden;
+}
 
-  .btn-close {
-    border: none;
-    font-size: 20px;
-    padding: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    color: black;
-    background: transparent;
-  }
-  
-  .btn {
-     width: 150px;
-     height: 50px;
-     border:none;
-     border:solid 2px #f8f9fa;
-     border-radius: 5px;
-     font-size: 25px;
-     cursor: pointer;
-     color: #212529;
-    background-color: #f8f9fa;
+.modal-body {
+  margin: 20px 0;
+}
 
-  }
+.modal-default-button {
+  float: right;
+}
 
-  .btn:focus, .btn-close:focus{
-      outline: none;
-    
-  }
+/*
+* The following styles are auto-applied to elements with
+* transition="modal" when their visibility is toggled
+* by Vue.js.
+*
+* You can easily play with the modal transition by editing
+* these styles.
+*/
 
-  .btn:hover, .btn-close:hover{
-    color: #212529;
-    background-color: #e2e6ea;
-    border-color: #dae0e5;
-  }
+.modal-enter {
+  opacity: 0;
+}
 
-  .modal-fade-enter,
-  .modal-fade-leave-active {
-    opacity: 0;
-  }
+.modal-leave-active {
+  opacity: 0;
+}
 
-  .modal-fade-enter-active,
-  .modal-fade-leave-active {
-    transition: opacity .5s ease
-  }
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
 </style>
