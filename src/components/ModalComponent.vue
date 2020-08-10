@@ -3,7 +3,7 @@
     <div class="modal-mask" @click="$emit('close')">
       <div class="modal-wrapper">
         <div
-          class="modal-container"
+          class="modal-container "
           :style="{ width: width + widthUnit }"
           @click.stop
         >
@@ -54,6 +54,7 @@ export default {
       default: false,
     },
   },
+  
 };
 </script>
 
